@@ -150,20 +150,43 @@ public class PlayActivity extends BaseActivity {
                 return rec;
             }
         };
-        mVideoView.setProgressManager(progressManager);
+               mVideoView.setProgressManager(progressManager);
         mController.setListener(new VodController.VodControlListener() {
             @Override
             public void playNext(boolean rmProgress) {
-                String preProgressKey = progressKey;
-                PlayActivity.this.playNext();
-                if (rmProgress && preProgressKey != null)
-                    CacheManager.delete(MD5.string2MD5(preProgressKey), 0);
+                if (mVodInfo.reverseSort) {
+                    PlayActivity.this.playPrevious();
+                } else {
+                    String preProgressKey = progressKey;
+                    PlayActivity.this.playNext();
+                    if (rmProgress && preProgressKey != null) CacheManager.delete(MD5.string2MD5(preProgressKey), 0);
+                }
             }
 
             @Override
             public void playPre() {
-                PlayActivity.this.playPrevious();
+                if (mVodInfo.reverseSort) {
+                    PlayActivity.this.playNext();
+                } else {
+                    PlayActivity.this.playPrevious();
+                }
             }
+        
+        
+//        mVideoView.setProgressManager(progressManager);
+//        mController.setListener(new VodController.VodControlListener() {
+//            @Override
+//            public void playNext(boolean rmProgress) {
+//                String preProgressKey = progressKey;
+//                PlayActivity.this.playNext();
+//                if (rmProgress && preProgressKey != null)
+//                    CacheManager.delete(MD5.string2MD5(preProgressKey), 0);
+//            }
+//
+//            @Override
+//            public void playPre() {
+//                PlayActivity.this.playPrevious();
+//            }
 
             @Override
             public void changeParse(ParseBean pb) {
