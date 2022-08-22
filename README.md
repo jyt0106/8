@@ -7,3 +7,4 @@
 
 1.5.3bate
 增加对flv|avi|mkv|rm|wmv|mpg|m4a|mp3等几种视频格式及火山抖音等短视频解析支持
+小窗换线路点同一集不加载BUG
