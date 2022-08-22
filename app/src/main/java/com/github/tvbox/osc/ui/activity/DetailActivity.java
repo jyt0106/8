@@ -278,14 +278,12 @@ public class DetailActivity extends BaseActivity {
                         vodInfo.playIndex = position;
                         reload = true;
                     }
-                    //解决当前集不刷新的BUG
-                    if (!vodInfo.playFlag.equals(preFlag)) {
-                        reload = true;
-                    }
                     seriesAdapter.getData().get(vodInfo.playIndex).selected = true;
                     seriesAdapter.notifyItemChanged(vodInfo.playIndex);
-                    if (showPreview && !fullWindows) toggleFullPreview();
-                    if (!showPreview || reload) jumpToPlay();
+                    if (reload || !showPreview)
+                        jumpToPlay();
+                    if (showPreview && !fullWindows)
+                        toggleFullPreview();
                 }
             }
         });
