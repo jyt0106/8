@@ -279,7 +279,7 @@ public class DetailActivity extends BaseActivity {
                         reload = true;
                     }
                     //解决当前集不刷新的BUG
-                    if(!vodInfo.playFlag.equals(preFlag)) {
+                    if(!vodInfo.playFlag.equals(recentFlag)) {
                         reload = true;
                     }
                     seriesAdapter.getData().get(vodInfo.playIndex).selected = true;
