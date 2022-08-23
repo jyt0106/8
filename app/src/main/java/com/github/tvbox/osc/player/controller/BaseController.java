@@ -94,7 +94,17 @@ public abstract class BaseController extends BaseVideoController implements Gest
     private ProgressBar mLoading;
     private ViewGroup mPauseRoot;
     private TextView mPauseTime;
+    private TextView mPlayLoadNetSpeed;//网速显示
 
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            String format = String.format("%.2fMB/s", (float) mControlWrapper.getTcpSpeed() / 1024.0 / 1024.0);
+            mPlayLoadNetSpeed.setText(format);
+            mHandler.postDelayed(this, 1000);
+               }
+    };//网速显示
+    
     @Override
     protected void initView() {
         super.initView();
@@ -105,6 +115,7 @@ public abstract class BaseController extends BaseVideoController implements Gest
         mLoading = findViewWithTag("vod_control_loading");
         mPauseRoot = findViewWithTag("vod_control_pause");
         mPauseTime = findViewWithTag("vod_control_pause_t");
+        mPlayLoadNetSpeed = findViewWithTag("play_load_net_speed");//网速显示
     }
 
     @Override
@@ -119,27 +130,33 @@ public abstract class BaseController extends BaseVideoController implements Gest
         switch (playState) {
             case VideoView.STATE_IDLE:
                 mLoading.setVisibility(GONE);
+                mPlayLoadNetSpeed.setVisibility(GONE);//网速显示
                 break;
             case VideoView.STATE_PLAYING:
                 mPauseRoot.setVisibility(GONE);
                 mLoading.setVisibility(GONE);
+                mPlayLoadNetSpeed.setVisibility(GONE);
                 break;
             case VideoView.STATE_PAUSED:
                 mPauseRoot.setVisibility(VISIBLE);
                 mLoading.setVisibility(GONE);
+                mPlayLoadNetSpeed.setVisibility(GONE);
                 break;
             case VideoView.STATE_PREPARED:
             case VideoView.STATE_ERROR:
             case VideoView.STATE_BUFFERED:
                 mLoading.setVisibility(GONE);
+                mPlayLoadNetSpeed.setVisibility(GONE);
                 break;
             case VideoView.STATE_PREPARING:
             case VideoView.STATE_BUFFERING:
                 mLoading.setVisibility(VISIBLE);
+                mPlayLoadNetSpeed.setVisibility(GONE);
                 break;
             case VideoView.STATE_PLAYBACK_COMPLETED:
                 mLoading.setVisibility(GONE);
                 mPauseRoot.setVisibility(GONE);
+                mPlayLoadNetSpeed.setVisibility(GONE);
                 break;
         }
     }
