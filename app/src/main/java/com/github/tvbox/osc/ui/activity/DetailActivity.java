@@ -278,8 +278,13 @@ public class DetailActivity extends BaseActivity {
                         vodInfo.playIndex = position;
                         reload = true;
                     }
+                    //解决当前集不刷新的BUG
+                    if(!vodInfo.playFlag.equals(preFlag)) {
+                        reload = true;
+                    }
                     seriesAdapter.getData().get(vodInfo.playIndex).selected = true;
                     seriesAdapter.notifyItemChanged(vodInfo.playIndex);
+                    //选集全屏 想选集不全屏的注释下面一行
                     if (reload || !showPreview)
                         jumpToPlay();
                     if (showPreview && !fullWindows)
@@ -292,9 +297,16 @@ public class DetailActivity extends BaseActivity {
 
     private List<Runnable> pauseRunnable = null;
 
+    //解决当前集不刷新的BUG
+    private String recentFlag="";
+    
     private void jumpToPlay() {
         if (vodInfo != null && vodInfo.seriesMap.get(vodInfo.playFlag).size() > 0) {
+            recentFlag = vodInfo.playFlag;
             Bundle bundle = new Bundle();
+//    private void jumpToPlay() {
+//        if (vodInfo != null && vodInfo.seriesMap.get(vodInfo.playFlag).size() > 0) {
+//            Bundle bundle = new Bundle();
             //保存历史
             insertVod(sourceKey, vodInfo);
             bundle.putString("sourceKey", sourceKey);
