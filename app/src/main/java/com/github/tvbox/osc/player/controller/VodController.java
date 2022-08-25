@@ -106,10 +106,6 @@ public class VodController extends BaseController {
     TextView mPlayLoadNetSpeed;
     TextView mVideoSize;
 
-    Handler myHandle;
-    Runnable myRunnable;
-    int myHandleSeconds = 6000;//闲置多少毫秒秒关闭底栏  默认6秒
-
     private Runnable myRunnable2 = new Runnable() {
         @Override
         public void run() {
@@ -126,10 +122,6 @@ public class VodController extends BaseController {
             mHandler.postDelayed(this, 1000);
         }
     };
-
-
-
-
 
 
     @Override
